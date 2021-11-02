@@ -3,9 +3,10 @@
 class Edge{
   
    Point p0,p1;
+   int weight;
       
-   Edge( Point _p0, Point _p1 ){
-     p0 = _p0; p1 = _p1;
+   Edge( Point _p0, Point _p1, int _weight ){
+     p0 = _p0; p1 = _p1; weight = _weight;
    }
    
    void draw(){
