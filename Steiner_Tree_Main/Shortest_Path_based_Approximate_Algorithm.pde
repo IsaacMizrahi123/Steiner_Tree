@@ -1,16 +1,11 @@
 import java.util.*;
 
 void Shortest_Path_based_Approximate_Algorithm (ArrayList<Point> vertices, ArrayList<Edge> edges) {
-	//ArrayList<Point> solNodes = new ArrayList<Point>();
-	//ArrayList<Edge> solEdges = new ArrayList<Edge>();
 	solNodes.clear();
 	solEdges.clear();
 	nodes.clear();
 
-	PriorityQueue<Edge> queue = new PriorityQueue<Edge>();
-	for (Edge edge : edges) {
-		queue.add(edge);
-	}
+	PriorityQueue<Edge> queue = new PriorityQueue<Edge>(edges);
 
 	// Kruskal Algorithm
 	Edge e;
@@ -23,102 +18,78 @@ void Shortest_Path_based_Approximate_Algorithm (ArrayList<Point> vertices, Array
 		}
 	}
 
-	System.out.print("Nodes:\n");
-	for (Point p : solNodes) {
-		System.out.print(p.toString()+"\n");
-	}
-	System.out.print("Edges:\n");
-	for (Edge edge : solEdges) {
-		System.out.print(edge.toString()+" with weight "+str(edge.weight)+"\n");
-	}
+	printArray("Nodes", solNodes);
+	printArray("Edges", solEdges);
 
 	//Create data structure to represent the minimum spaning tree
-	//Map<Point, ArrayList<Point>> nodes = new HashMap<Point, ArrayList<Point>>();
 	for (Edge edge : solEdges) {
-		if (nodes.containsKey(edge.p0)) {
-			nodes.get(edge.p0).add(edge.p1);
-		}else{ 
-			nodes.put(edge.p0, new ArrayList<Point>());
-			nodes.get(edge.p0).add(edge.p1);
-		}
+		if (nodes.containsKey(edge.p0)) { nodes.get(edge.p0).add(edge.p1); }
+		else{ nodes.put(edge.p0, new ArrayList<Point>()); nodes.get(edge.p0).add(edge.p1); }
 
-		if (nodes.containsKey(edge.p1)) {
-			nodes.get(edge.p1).add(edge.p0);
-		}else{ 
-			nodes.put(edge.p1, new ArrayList<Point>());
-			nodes.get(edge.p1).add(edge.p0);
-		}
+		if (nodes.containsKey(edge.p1)) { nodes.get(edge.p1).add(edge.p0); }
+		else{ nodes.put(edge.p1, new ArrayList<Point>()); nodes.get(edge.p1).add(edge.p0); }
 	}
 
-	System.out.print("Map:\n");
-	for (Point p : nodes.keySet()) {
-		System.out.print(p.toString()+": "+nodes.get(p)+"\n");
-	}
+	printMap();
 
 	for (Point p : solNodes) {
-		System.out.print("Trying to find marked.\n");
 		if (p.marked) {
-			System.out.print("Found marked node.\n");
 			startPrunning(p);
 			break;
 		}		
 	}
 
-	System.out.print("Nodes:\n");
-	for (Point p : solNodes) {
-		System.out.print(p.toString()+"\n");
-	}
-	System.out.print("Edges:\n");
-	for (Edge edge : solEdges) {
-		System.out.print(edge.toString()+" with weight "+str(edge.weight)+"\n");
-	}
-	System.out.print("Map:\n");
-	for (Point p : nodes.keySet()) {
-		System.out.print(p.toString()+": "+nodes.get(p)+"\n");
-	}
+	printArray("Nodes", solNodes);
+	printArray("Edges", solEdges);
+	printMap();
 	System.out.print("\n \n");
 
 }
 
-void startPrunning(Point root) {
-	ArrayList<Point> list = new ArrayList<Point>();
-	for (Point p : nodes.get(root)) {
-		list.add(p);
-	}
-	for (Point p : list) {
+void startPrunning (Point root) {
+	for (Point p : new ArrayList<Point>(nodes.get(root))) {
 		cutTree(p,root);
 	}
-
 }
 
-void cutTree(Point current, Point dad) {
-	System.out.print("cutTree\n");
+void cutTree (Point current, Point dad) {
 	if (nodes.get(current).size() > 1) {
-		for (Point p : nodes.get(current)) { //Error here
+		for (Point p : new ArrayList<Point>(nodes.get(current))) {
 			if (p!=dad) {
 				cutTree(p,current);
 			}
 		}
 	}
-	System.out.print("After first if\n");
+
 	if (nodes.get(current).size() == 1 && !current.marked) {
 		nodes.get(dad).remove(current);
 		solNodes.remove(current);
 		nodes.remove(current);
 		removeEdge(current, dad);
 	}
-	System.out.print("After second if\n");
 }
 
-void removeEdge(Point p0, Point p1) {
-	System.out.print("Removing edge\n");
+void removeEdge (Point p0, Point p1) {
 	Edge edge = null;
 	for (Edge e : solEdges) {
-		System.out.print("Looking for edge\n");
-		if ( (e.p0==p0 && e.p1==p1) || (e.p0==p1 && e.p1==p0)) {
+		if ( (e.p0==p0 && e.p1==p1) || (e.p0==p1 && e.p1==p0) ) {
 			edge = e;
 			break;
 		}
 	}
 	solEdges.remove(edge);
+}
+
+void printArray (String title, ArrayList list) {
+	System.out.print(title+":\n");
+	for (Object p : list) {
+		System.out.print(p.toString()+"\n");
+	}
+}
+
+void printMap () {
+	System.out.print("Map:\n");
+	for (Point p : nodes.keySet()) {
+		System.out.print(p.toString()+": "+nodes.get(p)+"\n");
+	}
 }
