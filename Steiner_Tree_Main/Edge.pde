@@ -1,6 +1,6 @@
 
 
-class Edge{
+class Edge implements Comparable<Edge>{
   
    Point p0,p1;
    int weight;
@@ -71,6 +71,11 @@ class Edge{
      PVector P = PVector.add( P1, PVector.mult( Q, u ) );
      
      return new Point( P );     
+   }
+
+   @Override
+   public int compareTo(Edge e) {
+      return e.weight < this.weight ? 1 : -1;
    }
    
    
