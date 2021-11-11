@@ -4,6 +4,7 @@ void Shortest_Path_based_Approximate_Algorithm (ArrayList<Point> vertices, Array
 	solNodes.clear();
 	solEdges.clear();
 	nodes.clear();
+	decolorTree();
 
 	PriorityQueue<Edge> queue = new PriorityQueue<Edge>(edges);
 
@@ -43,6 +44,8 @@ void Shortest_Path_based_Approximate_Algorithm (ArrayList<Point> vertices, Array
 	printArray("Edges", solEdges);
 	printMap();
 	System.out.print("\n \n");
+
+	colorTree();
 
 }
 

@@ -7,6 +7,7 @@ int stage = 1; //1: add vertices. 2: add edges. 3: mark terminal vertices
 Point start = null;
 Point end = null;
 Point sel = null;
+Map<Point, ArrayList<Point>> neighbours = new HashMap<Point, ArrayList<Point>>();
 Map<Point, ArrayList<Point>> nodes = new HashMap<Point, ArrayList<Point>>();
 ArrayList<Point> solNodes = new ArrayList<Point>();
 ArrayList<Edge> solEdges = new ArrayList<Edge>();
@@ -33,8 +34,6 @@ void draw(){
 		ellipse( start.x(), start.y(), 10,10);  
 	}
 
-	noFill();
-	stroke(100);
 	for (Edge e : edges) { e.draw(); }
 
 	fill(0);
@@ -54,13 +53,18 @@ void draw(){
 	for (int i = 0; i < points.size(); i++) {
   		textRHC( i+1, points.get(i).p.x+5, points.get(i).p.y+15 );
 	}
+
+	for (Edge e : edges) {
+		textRHC( e.weight, (e.p0.p.x+e.p1.p.x)/2 , (e.p0.p.y+e.p1.p.y)/2 );
+	}
 }
 
 void keyPressed(){
 	if( key == '1' ) {stage = 1; start = null; }
 	if( key == '2' ) stage = 2;
 	if( key == '3' ) {stage = 3; start = null; }
-	if( key == '4' ) { Shortest_Path_based_Approximate_Algorithm(points, edges); } //Run Streiner Tree Algorithm
+	if( key == '4' ) { Shortest_Path_Dijkstra(); } //Run Dijjkstra approach
+  	if( key == '5' ) { Shortest_Path_based_Approximate_Algorithm(points, edges); } //Run Kruscal approach
   	if( key == 'c' ) { points.clear(); edges.clear(); }
 }
 
@@ -99,7 +103,7 @@ void mousePressed(){
 					JFrame jf = new JFrame();
 					jf.setAlwaysOnTop(true);
 					String weight = JOptionPane.showInputDialog(jf,"Enter the edge weight.");
-					if ( isInt(weight) ){ 
+					if ( isInt(weight) ){
 						edges.add( new Edge(start, end, Integer.parseInt(weight) ) );  }
 						else { JOptionPane.showMessageDialog(null, "The weight have to be a positive number. Try again.", "Error", JOptionPane.ERROR_MESSAGE); }
 						start = end = null; }

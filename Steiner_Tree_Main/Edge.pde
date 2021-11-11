@@ -2,12 +2,15 @@ class Edge implements Comparable<Edge>{
 	
 	Point p0,p1;
 	int weight;
+	boolean partOfTree = false;
 
 	Edge (Point _p0, Point _p1, int _weight) {
 		p0 = _p0; p1 = _p1; weight = _weight;
 	}
 
 	void draw(){
+		if (partOfTree){ stroke(255,0,0); }
+		else { stroke(100); }
 		line( p0.p.x, p0.p.y, 
 			p1.p.x, p1.p.y );
 	}

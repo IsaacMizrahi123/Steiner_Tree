@@ -2,6 +2,7 @@ class Point {
 	
 	public PVector p;
 	public boolean marked = false;
+	public boolean partOfTree = false;
 
 	public Point (float x, float y) {
 		p = new PVector(x,y);
@@ -13,7 +14,10 @@ class Point {
 
 	public void draw(){
 		if (marked) { fill(255,200,200); }
-		else { fill(0); } 
+		else { 
+			if (partOfTree){ fill(153,0,153); }
+			else{ fill(0); }
+		} 
 		ellipse( p.x,p.y, 10,10);    
 	}
 
