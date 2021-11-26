@@ -34,4 +34,36 @@ class Edge implements Comparable<Edge>{
 		return e.weight < this.weight ? 1 : -1;
 	}
 
+	public boolean has(Point p){
+		if (p0 == p || p1 == p) {
+			return true;
+		}
+		return false;
+	}
+
+	public float distance (float x, float y) {
+		float x_1 = p0.p.x;
+		float y_1 = p0.p.y;
+		float x_2 = p1.p.x;
+		float y_2 = p1.p.y;
+
+		float dx = x_2 - x_1; 
+		float dy = y_2 - y_1; 
+		float d = sqrt( dx*dx + dy*dy ); 
+		float c = dx/d;
+		float s = dy/d; 
+		float mX = (-x_1+x)*c + (-y_1+y)*s;
+
+		float distanceX;
+		float distanceY; 
+		if (mX <= 0) 		{	distanceX = x_1; 		distanceY = y_1; }
+		else if (mX >= d) 	{	distanceX = x_2; 		distanceY = y_2; }
+		else 				{	distanceX = x_1 + mX*c;	distanceY = y_1 + mX*s;	}
+
+		dx = x - distanceX; 
+		dy = y - distanceY; 
+
+		return sqrt( dx*dx + dy*dy ); 
+	}
+
 }

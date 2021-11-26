@@ -37,7 +37,7 @@ void Shortest_Path_based_Approximate_Algorithm (ArrayList<Point> vertices, Array
 		if (p.marked) {
 			startPrunning(p);
 			break;
-		}		
+		}
 	}
 
 	printArray("Nodes", solNodes);

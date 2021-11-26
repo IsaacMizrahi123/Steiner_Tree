@@ -18,43 +18,43 @@ void Shortest_Path_Dijkstra () {
 	for (Point p : points) {
 		if (p.marked) { terminals.add(p); }
 	}
-	printArray("Terminals", terminals);
 
 	//Start with a subtree T consisting of one given terminal
-	solNodes.add(terminals.get(0));
-	terminals.remove(0);
+	if (!terminals.isEmpty()) {
+		solNodes.add(terminals.get(0));
+		terminals.remove(0);
 
-	while (!terminals.isEmpty()) {
+		while (!terminals.isEmpty()) {
 
-		//Select the shortest path between a terminal to the solution
-		Path closestTerminal = null;
-		for (Point t : terminals) {
-			Path path = Modify_Dijkstra(t);
-			if (closestTerminal == null) { closestTerminal = path; }
-			else{
-				if (path.weight < closestTerminal.weight) {
-					closestTerminal = path;
+			//Select the shortest path between a terminal to the solution
+			Path closestTerminal = null;
+			for (Point t : terminals) {
+				Path path = Modify_Dijkstra(t);
+				if (closestTerminal == null) { closestTerminal = path; }
+				else{
+					if (path.weight < closestTerminal.weight) {
+						closestTerminal = path;
+					}
 				}
 			}
+
+			//Add path to solution
+			Point base, conecting;
+			for (int i = 1; i<closestTerminal.path.size(); i++) {
+				base = closestTerminal.path.get(i-1);
+				conecting = closestTerminal.path.get(i);
+				if (conecting.marked && terminals.contains(conecting)) { terminals.remove(conecting); }
+				solNodes.add(conecting);
+				solEdges.add(findEdge(base,conecting));
+			}
+
 		}
 
-		//Add path to solution
-		Point base, conecting;
-		for (int i = 1; i<closestTerminal.path.size(); i++) {
-			base = closestTerminal.path.get(i-1);
-			conecting = closestTerminal.path.get(i);
-			if (conecting.marked && terminals.contains(conecting)) { terminals.remove(conecting); }
-			solNodes.add(conecting);
-			solEdges.add(findEdge(base,conecting));
-		}
+		printArray("Nodes", solNodes);
+		printArray("Edges", solEdges);
 
+		colorTree();
 	}
-
-	printArray("Nodes", solNodes);
-	printArray("Edges", solEdges);
-
-	colorTree();
-
 }
 
 class Path {
