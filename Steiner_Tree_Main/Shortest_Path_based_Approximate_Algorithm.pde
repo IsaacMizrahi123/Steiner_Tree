@@ -19,8 +19,8 @@ void Shortest_Path_based_Approximate_Algorithm (ArrayList<Point> vertices, Array
 		}
 	}
 
-	printArray("Nodes", solNodes);
-	printArray("Edges", solEdges);
+	//printArray("Nodes", solNodes);
+	//printArray("Edges", solEdges);
 
 	//Create data structure to represent the minimum spaning tree
 	for (Edge edge : solEdges) {
@@ -31,7 +31,7 @@ void Shortest_Path_based_Approximate_Algorithm (ArrayList<Point> vertices, Array
 		else{ nodes.put(edge.p1, new ArrayList<Point>()); nodes.get(edge.p1).add(edge.p0); }
 	}
 
-	printMap();
+	//printMap();
 
 	for (Point p : solNodes) {
 		if (p.marked) {
@@ -40,10 +40,10 @@ void Shortest_Path_based_Approximate_Algorithm (ArrayList<Point> vertices, Array
 		}
 	}
 
-	printArray("Nodes", solNodes);
-	printArray("Edges", solEdges);
-	printMap();
-	System.out.print("\n \n");
+	//printArray("Nodes", solNodes);
+	//printArray("Edges", solEdges);
+	//printMap();
+	//System.out.print("\n \n");
 
 	colorTree();
 

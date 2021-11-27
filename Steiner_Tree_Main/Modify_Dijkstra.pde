@@ -50,8 +50,8 @@ void Shortest_Path_Dijkstra () {
 
 		}
 
-		printArray("Nodes", solNodes);
-		printArray("Edges", solEdges);
+		//printArray("Nodes", solNodes);
+		//printArray("Edges", solEdges);
 
 		colorTree();
 	}
